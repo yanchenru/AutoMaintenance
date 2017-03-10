@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMaintenance", "AutoMaintenance\AutoMaintenance.csproj", "{75E7B0EF-8C52-47D7-B4E6-6620357AFFB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMaintenance.Tests", "AutoMaintenance.Tests\AutoMaintenance.Tests.csproj", "{356D5F41-AFE3-4439-9E73-C1EE66C0E5ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75E7B0EF-8C52-47D7-B4E6-6620357AFFB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E7B0EF-8C52-47D7-B4E6-6620357AFFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E7B0EF-8C52-47D7-B4E6-6620357AFFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E7B0EF-8C52-47D7-B4E6-6620357AFFB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356D5F41-AFE3-4439-9E73-C1EE66C0E5ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356D5F41-AFE3-4439-9E73-C1EE66C0E5ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356D5F41-AFE3-4439-9E73-C1EE66C0E5ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356D5F41-AFE3-4439-9E73-C1EE66C0E5ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
