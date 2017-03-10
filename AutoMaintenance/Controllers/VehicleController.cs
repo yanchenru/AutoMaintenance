@@ -19,9 +19,12 @@ namespace AutoMaintenance.Controllers
         //    return "This is my <b>default</b> action...";
         //}
 
-        public string Welcome()
+        public ActionResult Welcome(string name, int numTimes = 1)
         {
-            return "This is the Welcome action method...";
+            ViewBag.Message = "Hello " + name;
+            ViewBag.NumTimes = numTimes;
+
+            return View();
         }
     }
 }
