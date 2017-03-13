@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,11 @@ namespace AutoMaintenance.Models
         public int Year { get; set; }
         public int Odometer { get; set; }
         //public ICollection<Maintenance> Maintenance { get; set; }
+    }
+
+    public class VehicleDBContext : DbContext
+    {
+        public DbSet<Vehicle> Vehicle { get; set; }
     }
 
     public class Gas : Vehicle
