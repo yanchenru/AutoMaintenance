@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,8 @@ namespace AutoMaintenance.Models
         public string Make { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
+
+        [Display(Name = "Mileage")]
         public int Odometer { get; set; }
         //public ICollection<Maintenance> Maintenance { get; set; }
     }

@@ -15,9 +15,16 @@ namespace AutoMaintenance.Controllers
         private VehicleDBContext db = new VehicleDBContext();
 
         // GET: Vehicles
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(db.Vehicle.ToList());
+            var vehicles = from v in db.Vehicle select v;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(s => s.Make.Contains(searchString));
+            }
+
+            return View(vehicles);
         }
 
         // GET: Vehicles/Details/5
