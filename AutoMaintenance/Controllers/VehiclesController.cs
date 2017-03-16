@@ -15,13 +15,25 @@ namespace AutoMaintenance.Controllers
         private VehicleDBContext db = new VehicleDBContext();
 
         // GET: Vehicles
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string vehicleModel, string searchString)
         {
+            var ModelLst = new List<string>();
+            var ModelQry = from d in db.Vehicle
+                           orderby d.Model
+                           select d.Model;
+            ModelLst.AddRange(ModelQry.Distinct());
+            ViewBag.vehicleModel = new SelectList(ModelLst);
+
             var vehicles = from v in db.Vehicle select v;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 vehicles = vehicles.Where(s => s.Make.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(vehicleModel))
+            {
+                vehicles = vehicles.Where(x => x.Model == vehicleModel);
             }
 
             return View(vehicles);
