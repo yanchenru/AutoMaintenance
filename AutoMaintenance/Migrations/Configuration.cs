@@ -27,23 +27,52 @@ namespace AutoMaintenance.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            context.Vehicle.AddOrUpdate(i => i.Make,
-        new Vehicle
-        {
-            Make = "BMW",
-            Model = "X5",
-            Year = 2014,
-            Odometer = 55000
-        },
+            context.Vehicle.AddOrUpdate(i => new { i.Make, i.Model},
+                new Vehicle
+                {
+                    Make = "BMW",
+                    Model = "X5",
+                    Year = 2014,
+                    Odometer = 55000,
+                    Rating = "Good"
+                },
 
-         new Vehicle
-         {
-             Make = "Honda",
-             Model = "Civic",
-             Year = 2016,
-             Odometer = 30000
-         }
-   );
+                new Vehicle
+                {
+                    Make = "Honda",
+                    Model = "Civic",
+                    Year = 2016,
+                    Odometer = 30000,
+                    Rating = "Bad"
+                },
+
+                new Vehicle
+                {
+                    Make = "Lincoln",
+                    Model = "MKX",
+                    Year = 2013,
+                    Odometer = 72000,
+                    Rating = "Good"
+                },
+
+                new Vehicle
+                {
+                    Make = "Buick",
+                    Model = "ENCORE",
+                    Year = 2016,
+                    Odometer = 11300,
+                    Rating = "Bad"
+                },
+
+                new Vehicle
+                {
+                    Make = "Honda",
+                    Model = "Accord",
+                    Year = 1999,
+                    Odometer = 174000,
+                    Rating = "Bad"
+                }
+                );
         }
     }
 }
