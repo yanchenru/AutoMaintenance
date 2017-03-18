@@ -14,7 +14,7 @@ namespace AutoMaintenance.Models
         [StringLength(60, MinimumLength = 2)]
         public string Make { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
+        //[RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
         [Required]
         [StringLength(30)]
         public string Model { get; set; }
