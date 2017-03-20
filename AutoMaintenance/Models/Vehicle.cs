@@ -26,16 +26,16 @@ namespace AutoMaintenance.Models
         public int Odometer { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
-        [StringLength(5)]
+        [StringLength(4)]
         public string Rating { get; set; }
 
         public virtual ICollection<Maintenance> Maintenance { get; set; }
     }
 
-    public class VehicleDBContext : DbContext
-    {
-        public DbSet<Vehicle> Vehicle { get; set; }
-    }
+    //public class VehicleDBContext : DbContext
+    //{
+    //    public DbSet<Vehicle> Vehicle { get; set; }
+    //}
 
     public class Gas : Vehicle
     {
