@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMaintenance.DAL;
 using AutoMaintenance.Models;
+using PagedList;
 
 namespace AutoMaintenance.Controllers
 {
@@ -16,10 +17,51 @@ namespace AutoMaintenance.Controllers
         private AutoTrackContext db = new AutoTrackContext();
 
         // GET: Maintenances
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            var maintenance = db.Maintenance.Include(m => m.Vehicle);
-            return View(maintenance.ToList());
+            //var maintenance = db.Maintenance.Include(m => m.Vehicle);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.MakeSortParm = String.IsNullOrEmpty(sortOrder) ? "make_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var maintenance = from m in db.Maintenance select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                maintenance = maintenance.Where(m => m.Vehicle.Make.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "make_desc":
+                    maintenance = maintenance.OrderByDescending(m => m.Vehicle.Make);
+                    break;
+                case "Date":
+                    maintenance = maintenance.OrderBy(m => m.Date);
+                    break;
+                case "date_desc":
+                    maintenance = maintenance.OrderByDescending(m => m.Date);
+                    break;
+                default:
+                    maintenance = maintenance.OrderBy(m => m.Vehicle.Make);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(maintenance.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Maintenances/Details/5
@@ -81,26 +123,43 @@ namespace AutoMaintenance.Controllers
         // POST: Maintenances/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Type")] Maintenance maintenance)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(maintenance).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
-            return View(maintenance);
-        }
-
-        // GET: Maintenances/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult EditPost(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var maintenanceToUpdate = db.Maintenance.Find(id);
+            if (TryUpdateModel(maintenanceToUpdate, "",
+               new string[] { "VehicleID", "Date", "Price", "Type" }))
+            {
+                try
+                {
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            return View(maintenanceToUpdate);
+        }
+
+        // GET: Maintenances/Delete/5
+        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
             Maintenance maintenance = db.Maintenance.Find(id);
             if (maintenance == null)
@@ -115,9 +174,18 @@ namespace AutoMaintenance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Maintenance maintenance = db.Maintenance.Find(id);
-            db.Maintenance.Remove(maintenance);
-            db.SaveChanges();
+            try
+            {
+                //Maintenance maintenance = db.Maintenance.Find(id);
+                //db.Maintenance.Remove(maintenance);
+                Maintenance maintenanceToDelete = new Maintenance() { MaintenanceID = id };
+                db.Entry(maintenanceToDelete).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+            catch (DataException)
+            {
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 

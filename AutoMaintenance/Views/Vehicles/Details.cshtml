@@ -13,7 +13,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Make)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Make)
         </dd>
@@ -21,7 +20,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Model)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Model)
         </dd>
@@ -29,7 +27,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Year)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Year)
         </dd>
@@ -37,7 +34,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Odometer)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Odometer)
         </dd>
@@ -45,11 +41,36 @@
         <dt>
             @Html.DisplayNameFor(model => model.Rating)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Rating)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Maintenance)
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                </tr>
+                @foreach (var item in Model.Maintenance)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <p>

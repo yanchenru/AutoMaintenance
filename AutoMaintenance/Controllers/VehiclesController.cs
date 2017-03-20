@@ -66,13 +66,20 @@ namespace AutoMaintenance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Make,Model,Year,Odometer, Rating")] Vehicle vehicle)
+        public ActionResult Create([Bind(Include = "Make,Model,Year,Odometer, Rating")] Vehicle vehicle)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Vehicle.Add(vehicle);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Vehicle.Add(vehicle);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
             return View(vehicle);
