@@ -14,7 +14,7 @@ namespace AutoMaintenance.Models
         [StringLength(60, MinimumLength = 2)]
         public string Make { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
+        //[RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
         [Required]
         [StringLength(30)]
         public string Model { get; set; }
@@ -26,16 +26,16 @@ namespace AutoMaintenance.Models
         public int Odometer { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
-        [StringLength(6)]
+        [StringLength(4)]
         public string Rating { get; set; }
 
         public virtual ICollection<Maintenance> Maintenance { get; set; }
     }
 
-    public class VehicleDBContext : DbContext
-    {
-        public DbSet<Vehicle> Vehicle { get; set; }
-    }
+    //public class VehicleDBContext : DbContext
+    //{
+    //    public DbSet<Vehicle> Vehicle { get; set; }
+    //}
 
     public class Gas : Vehicle
     {
