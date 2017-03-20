@@ -26,7 +26,7 @@ namespace AutoMaintenance.Models
         public int Odometer { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
-        [StringLength(5)]
+        [StringLength(6)]
         public string Rating { get; set; }
 
         public virtual ICollection<Maintenance> Maintenance { get; set; }
