@@ -8,7 +8,7 @@ using System.Web;
 
 namespace AutoMaintenance.DAL
 {
-    public class AutoTrackContext:DbContext
+    public class AutoTrackContext : DbContext
     {
         public AutoTrackContext() : base("AutoTrackContext")
         {

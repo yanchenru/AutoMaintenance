@@ -16,14 +16,14 @@
 {
     <p>
         Make: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search"/>
+        <input type="submit" value="Search" />
     </p>
 }
 
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Make", "Index", new { sortOrder = ViewBag.MakeSortParm, currentFilter=ViewBag.CurrentFilter })
+            @Html.ActionLink("Make", "Index", new { sortOrder = ViewBag.MakeSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             @Html.ActionLink("Maintenance Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -37,28 +37,28 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vehicle.Make)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaintenanceID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaintenanceID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaintenanceID })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MaintenanceID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MaintenanceID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MaintenanceID })
+            </td>
+        </tr>
+    }
 </table>
 
 <br />

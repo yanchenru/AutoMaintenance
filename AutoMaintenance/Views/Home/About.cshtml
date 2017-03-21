@@ -1,7 +1,29 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@model IEnumerable<AutoMaintenance.ViewModels.MaintenanceDateGroup>
+
+@{
+    ViewBag.Title = "Maintenance Statistics";
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<table>
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Count
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaintenanceDate)
+            </td>
+            <td align="right">
+                @item.MaintenanceCount
+            </td>
+        </tr>
+    }
+</table>

@@ -219,11 +219,16 @@
     <Compile Include="Controllers\MaintenancesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
+    <Compile Include="DAL\AutoTrackConfiguration.cs" />
     <Compile Include="DAL\AutoTrackContext.cs" />
     <Compile Include="DAL\AutoTrackInitializer.cs" />
+    <Compile Include="DAL\AutoTrackInterceptorLogging.cs" />
+    <Compile Include="DAL\AutoTrackInterceptorTransientErrors.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Migrations\201703171626409_Initial.cs" />
     <Compile Include="Migrations\201703171626409_Initial.Designer.cs">
       <DependentUpon>201703171626409_Initial.cs</DependentUpon>
@@ -244,6 +249,7 @@
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\MaintenanceDateGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
