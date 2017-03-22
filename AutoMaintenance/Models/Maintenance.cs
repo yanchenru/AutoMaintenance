@@ -26,16 +26,18 @@ namespace AutoMaintenance.Models
         [DataType(DataType.Currency)]
         public double Price { get; set; }
 
+        [DisplayFormat(NullDisplayText = "No Type")]
         public MaintenanceType? Type { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 
-    public class OilChange:Maintenance
+    public class OilChange : Maintenance
     {
     }
 
-    public class TireRotation:Maintenance
+    public class TireRotation : Maintenance
     {
     }
 }

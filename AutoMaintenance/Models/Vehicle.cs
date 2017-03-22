@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -23,13 +24,14 @@ namespace AutoMaintenance.Models
         public int Year { get; set; }
 
         [Display(Name = "Mileage")]
+        [Column("Mileage")]
         public int Odometer { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
         [StringLength(4)]
         public string Rating { get; set; }
 
-        public virtual ICollection<Maintenance> Maintenance { get; set; }
+        public virtual ICollection<Maintenance> Maintenances { get; set; }
     }
 
     //public class VehicleDBContext : DbContext

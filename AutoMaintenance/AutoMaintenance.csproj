@@ -219,9 +219,7 @@
     <Compile Include="Controllers\MaintenancesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
-    <Compile Include="DAL\AutoTrackConfiguration.cs" />
     <Compile Include="DAL\AutoTrackContext.cs" />
-    <Compile Include="DAL\AutoTrackInitializer.cs" />
     <Compile Include="DAL\AutoTrackInterceptorLogging.cs" />
     <Compile Include="DAL\AutoTrackInterceptorTransientErrors.cs" />
     <Compile Include="Global.asax.cs">
@@ -233,8 +231,17 @@
     <Compile Include="Migrations\201703212144171_InitialCreate.Designer.cs">
       <DependentUpon>201703212144171_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703221732564_ColumnMileage.cs" />
+    <Compile Include="Migrations\201703221732564_ColumnMileage.Designer.cs">
+      <DependentUpon>201703221732564_ColumnMileage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703222114319_EmployeeModel.cs" />
+    <Compile Include="Migrations\201703222114319_EmployeeModel.Designer.cs">
+      <DependentUpon>201703222114319_EmployeeModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Maintenance.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -343,6 +350,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703212144171_InitialCreate.resx">
       <DependentUpon>201703212144171_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703221732564_ColumnMileage.resx">
+      <DependentUpon>201703221732564_ColumnMileage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703222114319_EmployeeModel.resx">
+      <DependentUpon>201703222114319_EmployeeModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
