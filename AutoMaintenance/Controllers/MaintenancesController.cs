@@ -25,7 +25,7 @@ namespace AutoMaintenance.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.MakeSortParm = String.IsNullOrEmpty(sortOrder) ? "make_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            
+
             if (searchString != null)
             {
                 page = 1;
@@ -37,7 +37,8 @@ namespace AutoMaintenance.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var maintenance = from m in db.Maintenance select m;
+            //eager loading
+            var maintenance = from m in db.Maintenance.Include(m => m.Vehicle) select m;
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -60,7 +61,7 @@ namespace AutoMaintenance.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             return View(maintenance.ToPagedList(pageNumber, pageSize));
@@ -84,7 +85,8 @@ namespace AutoMaintenance.Controllers
         // GET: Maintenances/Create
         public ActionResult Create()
         {
-            ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make");
+            //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make");
+            PopulateVehiclesDropDownList();
             return View();
         }
 
@@ -95,14 +97,22 @@ namespace AutoMaintenance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Type")] Maintenance maintenance)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Maintenance.Add(maintenance);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Maintenance.Add(maintenance);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (RetryLimitExceededException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
-            ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
+            //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
+            PopulateVehiclesDropDownList(maintenance.VehicleID);
             return View(maintenance);
         }
 
@@ -118,7 +128,9 @@ namespace AutoMaintenance.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
+
+            //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
+            PopulateVehiclesDropDownList(maintenance.VehicleID);
             return View(maintenance);
         }
 
@@ -149,6 +161,8 @@ namespace AutoMaintenance.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
             }
+
+            PopulateVehiclesDropDownList(maintenanceToUpdate.VehicleID);
             return View(maintenanceToUpdate);
         }
 
@@ -198,6 +212,14 @@ namespace AutoMaintenance.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void PopulateVehiclesDropDownList(object selectedVehicle = null)
+        {
+            var vehiclesQuery = from v in db.Vehicle
+                                orderby v.Make
+                                select v;
+            ViewBag.VehicleID = new SelectList(vehiclesQuery, "ID", "Make", selectedVehicle);
         }
     }
 }

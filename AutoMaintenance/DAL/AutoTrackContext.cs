@@ -12,6 +12,7 @@ namespace AutoMaintenance.DAL
     {
         public AutoTrackContext() : base("AutoTrackContext")
         {
+            //this.Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Vehicle> Vehicle { get; set; }
