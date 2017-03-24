@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AutoMaintenance.DAL;
 using AutoMaintenance.Models;
 using AutoMaintenance.ViewModels;
+using System.Data.Entity.Infrastructure;
 
 namespace AutoMaintenance.Controllers
 {
@@ -97,17 +98,34 @@ namespace AutoMaintenance.Controllers
         // POST: EmployeeIndex/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,LastName,FirstMidName,HireDate")] Employee employee)
+        public ActionResult EditPost(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(employee);
+            var employeeToUpdate = db.Employee
+               .Include(e => e.Maintenances)
+               .Where(e => e.ID == id)
+               .Single();
+
+            if (TryUpdateModel(employeeToUpdate, "",
+               new string[] { "LastName", "FirstMidName", "HireDate"}))
+            {
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            return View(employeeToUpdate);
         }
 
         // GET: EmployeeIndex/Delete/5

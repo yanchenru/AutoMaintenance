@@ -123,7 +123,11 @@ namespace AutoMaintenance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Maintenance maintenance = db.Maintenance.Find(id);
+
+            Maintenance maintenance = db.Maintenance.Include( m => m.Employees)
+                .Where(m => m.MaintenanceID == id).Single();
+            PopulateAssignedEmployeeData(maintenance);
+
             if (maintenance == null)
             {
                 return HttpNotFound();
@@ -132,6 +136,26 @@ namespace AutoMaintenance.Controllers
             //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
             PopulateVehiclesDropDownList(maintenance.VehicleID);
             return View(maintenance);
+        }
+
+        private void PopulateAssignedEmployeeData(Maintenance maintenance)
+        {
+            var allEmployees = db.Employee;
+            var maintenanceEmployee = new HashSet<int>(maintenance.Employees.Select(e => e.ID));
+            var viewModel = new List<AssignedEmployeeData>();
+
+            foreach(var employee in allEmployees)
+            {
+                viewModel.Add(new AssignedEmployeeData
+                {
+                    ID = employee.ID,
+                    LastName = employee.LastName,
+                    FirstName = employee.FirstMidName,
+                    Assigned = maintenanceEmployee.Contains(employee.ID)
+                });
+            }
+
+            ViewBag.Employees = viewModel;
         }
 
         // POST: Maintenances/Edit/5
