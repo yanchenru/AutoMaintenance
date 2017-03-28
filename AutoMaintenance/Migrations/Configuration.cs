@@ -34,15 +34,15 @@ namespace AutoMaintenance.Migrations
                     Type =MaintenanceType.Type1, Employees=new List<Employee>()},
                 new Maintenance{VehicleID=2, Date=DateTime.Parse("2015-03-09"), Price=250,
                     Type =MaintenanceType.Type4, Employees=new List<Employee>() },
-                new Maintenance{VehicleID=1, Date=DateTime.Parse("2017-03-19"), Price=160,
+                new Maintenance{VehicleID=3, Date=DateTime.Parse("2017-03-19"), Price=160,
                     Type =MaintenanceType.Type2, Employees=new List<Employee>() },
-                new Maintenance{VehicleID=4, Date=DateTime.Parse("2017-02-12"), Price=650,
+                new Maintenance{VehicleID=4, Date=DateTime.Parse("2016-02-12"), Price=650,
                     Type =MaintenanceType.Type3, Employees=new List<Employee>()},
-                new Maintenance{VehicleID=3, Date=DateTime.Parse("2017-09-03"), Price=950,
+                new Maintenance{VehicleID=5, Date=DateTime.Parse("2015-09-03"), Price=950,
                     Type =MaintenanceType.Type1, Employees=new List<Employee>() },
                 new Maintenance{VehicleID=1, Date=DateTime.Parse("2017-03-18"), Price=1250,
                     Type =MaintenanceType.Type4, Employees=new List<Employee>() },
-                new Maintenance{VehicleID=4, Date=DateTime.Parse("2017-07-29"), Price=1650,
+                new Maintenance{VehicleID=2, Date=DateTime.Parse("2016-07-29"), Price=1650,
                     Type =MaintenanceType.Type2, Employees=new List<Employee>() }
             };
             maintenances.ForEach(m => context.Maintenance.AddOrUpdate(p =>new { p.VehicleID, p.Price}, m));

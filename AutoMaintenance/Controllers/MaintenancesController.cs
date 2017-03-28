@@ -85,6 +85,9 @@ namespace AutoMaintenance.Controllers
         // GET: Maintenances/Create
         public ActionResult Create()
         {
+            var maintenance = new Maintenance();
+            maintenance.Employees = new List<Employee>();
+            PopulateAssignedEmployeeData(maintenance);
             //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make");
             PopulateVehiclesDropDownList();
             return View();
@@ -95,10 +98,20 @@ namespace AutoMaintenance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Type")] Maintenance maintenance)
+        public ActionResult Create([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Type")] Maintenance maintenance, string[] selectedEmployees)
         {
             try
             {
+                if(selectedEmployees != null)
+                {
+                    maintenance.Employees = new List<Employee>();
+                    foreach(var employee in selectedEmployees)
+                    {
+                        var employeeToAdd = db.Employee.Find(int.Parse(employee));
+                        maintenance.Employees.Add(employeeToAdd);
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.Maintenance.Add(maintenance);
@@ -126,6 +139,7 @@ namespace AutoMaintenance.Controllers
 
             Maintenance maintenance = db.Maintenance.Include( m => m.Employees)
                 .Where(m => m.MaintenanceID == id).Single();
+
             PopulateAssignedEmployeeData(maintenance);
 
             if (maintenance == null)
@@ -163,18 +177,23 @@ namespace AutoMaintenance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost(int? id)
+        public ActionResult Edit(int? id, string[] selectedEmployees)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var maintenanceToUpdate = db.Maintenance.Find(id);
+
+            var maintenanceToUpdate = db.Maintenance.Include(m => m.Employees)
+                .Where(m=>m.MaintenanceID == id).Single();
+
             if (TryUpdateModel(maintenanceToUpdate, "",
                new string[] { "VehicleID", "Date", "Price", "Type" }))
             {
                 try
                 {
+                    UpdateMaintenanceEmployees(selectedEmployees, maintenanceToUpdate);
+
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
@@ -186,8 +205,39 @@ namespace AutoMaintenance.Controllers
                 }
             }
 
+            PopulateAssignedEmployeeData(maintenanceToUpdate);
             PopulateVehiclesDropDownList(maintenanceToUpdate.VehicleID);
             return View(maintenanceToUpdate);
+        }
+
+        private void UpdateMaintenanceEmployees(string[] selectedEmployees, Maintenance maintenanceToUpdate)
+        {
+            if (selectedEmployees == null)
+            {
+                maintenanceToUpdate.Employees = new List<Employee>();
+                return;
+            }
+
+            var selectedEmployeesHS = new HashSet<string>(selectedEmployees);
+            var maintenanceEmployees = new HashSet<int>(maintenanceToUpdate.Employees.Select(e => e.ID));
+
+            foreach (var employee in db.Employee)
+            {
+                if (selectedEmployeesHS.Contains(employee.ID.ToString()))
+                {
+                    if (!maintenanceEmployees.Contains(employee.ID))
+                    {
+                        maintenanceToUpdate.Employees.Add(employee);
+                    }
+                }
+                else
+                {
+                    if (maintenanceEmployees.Contains(employee.ID))
+                    {
+                        maintenanceToUpdate.Employees.Remove(employee);
+                    }
+                }
+            }
         }
 
         // GET: Maintenances/Delete/5
