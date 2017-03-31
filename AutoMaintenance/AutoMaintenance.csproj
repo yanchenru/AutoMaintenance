@@ -216,6 +216,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeIndexController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaintenancesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -239,6 +240,10 @@
     <Compile Include="Migrations\201703222114319_EmployeeModel.cs" />
     <Compile Include="Migrations\201703222114319_EmployeeModel.Designer.cs">
       <DependentUpon>201703222114319_EmployeeModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703310435295_VehicleSP.cs" />
+    <Compile Include="Migrations\201703310435295_VehicleSP.Designer.cs">
+      <DependentUpon>201703310435295_VehicleSP.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -343,6 +348,11 @@
     <Content Include="Views\EmployeeIndex\Details.cshtml" />
     <Content Include="Views\EmployeeIndex\Edit.cshtml" />
     <Content Include="Views\EmployeeIndex\Index.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -364,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703222114319_EmployeeModel.resx">
       <DependentUpon>201703222114319_EmployeeModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703310435295_VehicleSP.resx">
+      <DependentUpon>201703310435295_VehicleSP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

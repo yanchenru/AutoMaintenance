@@ -28,6 +28,8 @@ namespace AutoMaintenance.DAL
              .Map(t => t.MapLeftKey("EmployeeID")
                  .MapRightKey("MaintenanceID")
                  .ToTable("EmployeeMaintenance"));
+
+            modelBuilder.Entity<Vehicle>().MapToStoredProcedures();
         }
     }
 }
