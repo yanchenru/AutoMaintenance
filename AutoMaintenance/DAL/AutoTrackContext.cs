@@ -16,8 +16,12 @@ namespace AutoMaintenance.DAL
         }
 
         public DbSet<Vehicle> Vehicle { get; set; }
+        public DbSet<Gas> Gas { get; set; }
+        public DbSet<Electric> Electric { get; set; }
+        public DbSet<Diesel> Diesel { get; set; }
         public DbSet<Maintenance> Maintenance { get; set; }
         public DbSet<Employee> Employee { get; set; }
+        public DbSet<VehicleType> VehicleType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

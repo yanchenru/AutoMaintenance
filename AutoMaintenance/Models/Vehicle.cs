@@ -12,6 +12,8 @@ namespace AutoMaintenance.Models
     {
         public int ID { get; set; }
 
+        public int VehicleTypeID { get; set; }
+
         [StringLength(60, MinimumLength = 2)]
         public string Make { get; set; }
 
@@ -31,6 +33,18 @@ namespace AutoMaintenance.Models
         [StringLength(4)]
         public string Rating { get; set; }
 
+        //public string Type
+        //{
+        //    get
+        //    {
+        //        return this.GetType().Name;
+        //    }
+        //}
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
+        public virtual VehicleType VehicleType { get; set; }
         public virtual ICollection<Maintenance> Maintenances { get; set; }
     }
 
@@ -46,7 +60,7 @@ namespace AutoMaintenance.Models
 
     public class Electric : Vehicle
     {
-
+        public bool? Charged { get; set; }
     }
 
     public class Diesel : Vehicle

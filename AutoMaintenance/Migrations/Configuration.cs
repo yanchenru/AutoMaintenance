@@ -17,13 +17,22 @@ namespace AutoMaintenance.Migrations
 
         protected override void Seed(AutoTrackContext context)
         {
+            var vehicleTypes = new List<VehicleType>
+            {
+                new VehicleType{Type = "Gas", Vehicles=new List<Vehicle>()},
+                new VehicleType{Type = "Electric", Vehicles=new List<Vehicle>()},
+                new VehicleType{Type = "Diesel", Vehicles=new List<Vehicle>()},
+            };
+            vehicleTypes.ForEach(vt => context.VehicleType.AddOrUpdate(p => p.Type, vt));
+            context.SaveChanges();
+
             var vehicles = new List<Vehicle>
             {
-                new Vehicle{Make = "BMW",Model = "X3",Year = 2014,Odometer = 55000,Rating = "Good"},
-                new Vehicle{Make = "Honda",Model = "Civic",Year = 2016,Odometer = 30000,Rating = "Bad"},
-                new Vehicle{Make = "Lincoln",Model = "MKX",Year = 2013,Odometer = 72000,Rating = "Good"},
-                new Vehicle{Make = "Buick",Model = "ENCORE",Year = 2016,Odometer = 11300,Rating = "Bad"},
-                new Vehicle{Make = "Honda",Model = "Accord",Year = 1999,Odometer = 174000,Rating = "Bad"}
+                new Vehicle{VehicleTypeID=1,Make = "BMW",Model = "X3",Year = 2014,Odometer = 55000,Rating = "Good"},
+                new Vehicle{VehicleTypeID=2,Make = "Honda",Model = "Civic",Year = 2016,Odometer = 30000,Rating = "Bad"},
+                new Vehicle{VehicleTypeID=3,Make = "Lincoln",Model = "MKX",Year = 2013,Odometer = 72000,Rating = "Good"},
+                new Vehicle{VehicleTypeID=1,Make = "Buick",Model = "ENCORE",Year = 2016,Odometer = 11300,Rating = "Bad"},
+                new Vehicle{VehicleTypeID=2,Make = "Honda",Model = "Accord",Year = 1999,Odometer = 174000,Rating = "Bad"}
              };
             vehicles.ForEach(v => context.Vehicle.AddOrUpdate(p => p.Model, v));
             context.SaveChanges();
