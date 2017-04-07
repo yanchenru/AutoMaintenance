@@ -38,6 +38,8 @@ namespace AutoMaintenance.Controllers
                 vehicles = vehicles.Where(x => x.Model == vehicleModel);
             }
 
+            ViewBag.RowsAffected = TempData["RowsAffected"];
+
             return View(vehicles);
         }
 
@@ -48,7 +50,12 @@ namespace AutoMaintenance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehicle vehicle = db.Vehicle.Find(id);
+
+            //Vehicle vehicle = db.Vehicle.Find(id);
+            // Create and execute raw SQL query.
+            string query = "SELECT * FROM Vehicle WHERE ID = @p0";
+            Vehicle vehicle = db.Vehicle.SqlQuery(query, id).SingleOrDefault();
+
             if (vehicle == null)
             {
                 return HttpNotFound();
@@ -231,6 +238,16 @@ namespace AutoMaintenance.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to delete. Try again, and if the problem persists contact your system administrator.");
                 return View(vehicle);
             }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateMileage(int? addNumber)
+        {
+            if (addNumber != null)
+            {
+                TempData["RowsAffected"] = db.Database.ExecuteSqlCommand("UPDATE Vehicle SET Odometer = Odometer + {0}", addNumber);
+            }
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

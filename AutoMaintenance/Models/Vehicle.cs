@@ -26,7 +26,7 @@ namespace AutoMaintenance.Models
         public int Year { get; set; }
 
         [Display(Name = "Mileage")]
-        [Column("Mileage")]
+        //[Column("Mileage")]
         public int Odometer { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]

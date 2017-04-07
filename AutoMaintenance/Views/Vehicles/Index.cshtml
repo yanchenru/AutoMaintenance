@@ -12,11 +12,29 @@
     @using (Html.BeginForm("Index", "Vehicles", FormMethod.Get))
     {
         <div>
-            Make: @Html.TextBox("SearchString") 
+            Make: @Html.TextBox("searchString")
             Model: @Html.DropDownList("vehicleModel", "All")
-            <input type="submit" value="Filter" /> 
+            <input type="submit" value="Filter" />
         </div>
-    }    
+    }
+</p>
+<p>
+    @if (ViewBag.RowsAffected == null)
+    {
+        using (Html.BeginForm("UpdateMileage", "Vehicles", FormMethod.Post))
+        {
+            <div>
+                Enter a number to add to mileage: @Html.TextBox("addNumber")
+                <input type="submit" value="Add" />
+            </div>
+        }
+    }
+    @if (ViewBag.RowsAffected != null)
+    {
+    <p>
+        Number of rows updated: @ViewBag.RowsAffected
+    </p>
+    }
 </p>
 <table class="table">
     <tr>
@@ -41,32 +59,33 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Make)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Odometer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rating)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VehicleType.Type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Odometer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType.Type)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
