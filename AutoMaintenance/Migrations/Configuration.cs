@@ -29,10 +29,11 @@ namespace AutoMaintenance.Migrations
             var vehicles = new List<Vehicle>
             {
                 new Vehicle{VehicleTypeID=1,Make = "BMW",Model = "X3",Year = 2014,Odometer = 55000,Rating = "Good"},
-                new Vehicle{VehicleTypeID=2,Make = "Honda",Model = "Civic",Year = 2016,Odometer = 30000,Rating = "Bad"},
+                new Vehicle{VehicleTypeID=1,Make = "Honda",Model = "Civic",Year = 2016,Odometer = 30000,Rating = "Bad"},
                 new Vehicle{VehicleTypeID=3,Make = "Lincoln",Model = "MKX",Year = 2013,Odometer = 72000,Rating = "Good"},
                 new Vehicle{VehicleTypeID=1,Make = "Buick",Model = "ENCORE",Year = 2016,Odometer = 11300,Rating = "Bad"},
-                new Vehicle{VehicleTypeID=2,Make = "Honda",Model = "Accord",Year = 1999,Odometer = 174000,Rating = "Bad"}
+                new Vehicle{VehicleTypeID=3,Make = "Honda",Model = "Accord",Year = 1999,Odometer = 174000,Rating = "Bad"},
+                new Vehicle{VehicleTypeID=2,Make = "Tesla",Model = "Model 3",Year = 2017,Odometer = 1200,Rating = "Bad"}
              };
             vehicles.ForEach(v => context.Vehicle.AddOrUpdate(p => p.Model, v));
             context.SaveChanges();
@@ -40,19 +41,19 @@ namespace AutoMaintenance.Migrations
             var maintenances = new List<Maintenance>
             {
                 new Maintenance{VehicleID=1, Date=DateTime.Parse("2017-03-19"), Price=150,
-                    Type =MaintenanceType.Type1, Employees=new List<Employee>()},
+                    Task =MaintenanceTask.OilChange, Employees=new List<Employee>()},
                 new Maintenance{VehicleID=2, Date=DateTime.Parse("2015-03-09"), Price=250,
-                    Type =MaintenanceType.Type4, Employees=new List<Employee>() },
+                    Task =MaintenanceTask.TireRotation, Employees=new List<Employee>() },
                 new Maintenance{VehicleID=3, Date=DateTime.Parse("2017-03-19"), Price=160,
-                    Type =MaintenanceType.Type2, Employees=new List<Employee>() },
+                    Task =MaintenanceTask.Vacuum, Employees=new List<Employee>() },
                 new Maintenance{VehicleID=4, Date=DateTime.Parse("2016-02-12"), Price=650,
-                    Type =MaintenanceType.Type3, Employees=new List<Employee>()},
+                    Task =MaintenanceTask.WheelAlignment, Employees=new List<Employee>()},
                 new Maintenance{VehicleID=5, Date=DateTime.Parse("2015-09-03"), Price=950,
-                    Type =MaintenanceType.Type1, Employees=new List<Employee>() },
+                    Task =MaintenanceTask.OilChange, Employees=new List<Employee>() },
                 new Maintenance{VehicleID=1, Date=DateTime.Parse("2017-03-18"), Price=1250,
-                    Type =MaintenanceType.Type4, Employees=new List<Employee>() },
+                    Task =MaintenanceTask.TireRotation, Employees=new List<Employee>() },
                 new Maintenance{VehicleID=2, Date=DateTime.Parse("2016-07-29"), Price=1650,
-                    Type =MaintenanceType.Type2, Employees=new List<Employee>() }
+                    Task =MaintenanceTask.Vacuum, Employees=new List<Employee>() }
             };
             maintenances.ForEach(m => context.Maintenance.AddOrUpdate(p =>new { p.VehicleID, p.Price}, m));
             context.SaveChanges();

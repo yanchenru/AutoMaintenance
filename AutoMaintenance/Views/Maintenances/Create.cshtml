@@ -17,7 +17,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="VehicleID">Vehicle</label>
             <div class="col-md-10">
-                @Html.DropDownList("VehicleID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("VehicleID", null, htmlAttributes: new { @class = "form-control", @onchange = "FillTask()" })
                 @Html.ValidationMessageFor(model => model.VehicleID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,10 +39,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Task, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                @Html.EnumDropDownListFor(model => model.Task, htmlAttributes: new {@class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Task, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -88,4 +88,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function FillTask() {
+            if ($("#VehicleID").val() == 8) {
+                $("#Task option[value='0']").prop("disabled", true);
+            }
+            else {
+                $("#Task option[value='0']").attr("disabled", false);
+            }
+        }
+    </script>
 }

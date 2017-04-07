@@ -6,9 +6,12 @@ using System.Web;
 
 namespace AutoMaintenance.Models
 {
-    public enum MaintenanceType
+    public enum MaintenanceTask
     {
-        Type1, Type2, Type3, Type4
+        OilChange,
+        TireRotation,
+        Vacuum,
+        WheelAlignment
     }
 
     public class Maintenance
@@ -27,7 +30,7 @@ namespace AutoMaintenance.Models
         public double Price { get; set; }
 
         [DisplayFormat(NullDisplayText = "No Type")]
-        public MaintenanceType? Type { get; set; }
+        public MaintenanceTask? Task { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }

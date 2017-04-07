@@ -61,7 +61,7 @@ namespace AutoMaintenance.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
 
             return View(maintenance.ToPagedList(pageNumber, pageSize));
@@ -98,7 +98,7 @@ namespace AutoMaintenance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Type")] Maintenance maintenance, string[] selectedEmployees)
+        public ActionResult Create([Bind(Include = "MaintenanceID,VehicleID,Date,Price,Task")] Maintenance maintenance, string[] selectedEmployees)
         {
             try
             {
@@ -110,6 +110,11 @@ namespace AutoMaintenance.Controllers
                         var employeeToAdd = db.Employee.Find(int.Parse(employee));
                         maintenance.Employees.Add(employeeToAdd);
                     }
+                }
+
+                if(maintenance.VehicleID == 8 && maintenance.Task == MaintenanceTask.OilChange)
+                {
+                    ModelState.AddModelError(string.Empty, "No oil change for Electric vehicle.");
                 }
 
                 if (ModelState.IsValid)
@@ -126,6 +131,7 @@ namespace AutoMaintenance.Controllers
 
             //ViewBag.VehicleID = new SelectList(db.Vehicle, "ID", "Make", maintenance.VehicleID);
             PopulateVehiclesDropDownList(maintenance.VehicleID);
+            PopulateAssignedEmployeeData(maintenance);
             return View(maintenance);
         }
 
